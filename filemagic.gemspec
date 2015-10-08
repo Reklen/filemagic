@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
   s.test_files = Dir["test/**/*"]
 
   # TODO: Do we need rails as a dependency?
-  s.add_dependency "rails", "~> 4.2.4"
+  s.add_dependency 'rails', ">= 4.2.0", "< 5"
 
   s.add_dependency "refile", "~> 0.6.1"
   s.add_dependency "refile-mini_magick", "~> 0.2.0"
