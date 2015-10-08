@@ -24,5 +24,8 @@ Gem::Specification.new do |s|
   s.add_dependency "refile-mini_magick", "~> 0.2.0"
   s.add_dependency "refile-s3", "~> 0.2.0"
 
+  s.add_dependency "sprockets", "~> 3.4.0"
+  s.add_runtime_dependency "sprockets-es6", "~> 0.8.0"
+
   s.add_development_dependency "sqlite3"
 end
