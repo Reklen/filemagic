@@ -1,0 +1,3 @@
+- Add support to turbolinks (Rails 5)
+- Verify how to add ES6 dependency on gem only
+- Verify how to add refile-mini_magick dependency on gem only
