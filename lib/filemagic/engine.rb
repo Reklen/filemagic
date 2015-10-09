@@ -14,13 +14,14 @@ end
 
 class ActionView::Helpers::FormBuilder
   def filemagic_field(attribute_name, options={})
-
     preview_size = options[:preview_size] || {}
+    preview_url = Refile.attachment_url(@object, attribute_name) || ''
     data_attributes = {
       component: 'Uploader',
       object: object_name,
       attribute: attribute_name,
       preview_size: preview_size,
+      preview_url: preview_url,
       as: "file",
       url: "/attachments/cache",
       fields: {},

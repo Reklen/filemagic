@@ -14,6 +14,11 @@ class Uploader extends React.Component {
     this.attributeName = this.props.object + "[" + this.props.attribute + "]";
     this.previewWidth = _.isEmpty(previewSize) ? 400 : parseInt(previewSize.width)
     this.previewHeight = _.isEmpty(previewSize) ? 200 : parseInt(previewSize.height)
+
+    var actualFile = this.props.previewUrl;
+    if (actualFile) {
+      this.showPreview(actualFile);
+    }
   }
 
   componentDidMount() {
@@ -54,7 +59,9 @@ class Uploader extends React.Component {
   }
 
   showPreview(file) {
-    if (file.type && file.type.match(/gif|jpe?g|png/)) {
+    // TODO: Think about some other way to validate if is an image, when loading image for editing
+    //       when editing model, file is not loaded to data, as it does when selecting an image on input button
+    // if (file.type && file.type.match(/gif|jpe?g|png/)) {
       loadImage(file, this.appendPreview.bind(this), {
         maxWidth: this.previewWidth,
         maxHeight: this.previewHeight,
@@ -64,7 +71,7 @@ class Uploader extends React.Component {
         crop: true,
         orientation: true
       });
-    }
+    // }
   }
 
   progress(e, data) {
@@ -79,7 +86,8 @@ class Uploader extends React.Component {
     $(image).hide();
     $(element).append($(image).fadeIn());
 
-    this.setState({ status: 'loading' });
+    var previewStatus = (this.props.previewUrl) ? 'done' : 'loading';
+    this.setState({ status: previewStatus });
   }
 
   done(e, data) {
