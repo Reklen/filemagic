@@ -1,3 +1,4 @@
+- Upgrade React version to 0.14 http://facebook.github.io/react/blog/2015/10/07/react-v0.14.html
 - Add support to turbolinks (Rails 5)
 - Verify how to add ES6 dependency on gem only
 - Verify how to add refile-mini_magick dependency on gem only

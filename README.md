@@ -7,7 +7,7 @@ This project rocks and uses MIT-LICENSE.
 ### Gemfile:
   - Add:
     - gem 'sprockets', '~> 3.4.0'
-    - gem 'sprockets-es6'
+    - gem 'sprockets-es6', '~> 0.8.0'
     - gem "refile-mini_magick", "~> 0.2.0"
 
   - Remove:
