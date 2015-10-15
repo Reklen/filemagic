@@ -26,7 +26,7 @@ This project rocks and uses MIT-LICENSE.
 ## Configuration
 
 Create a `filemagic.rb` file on config/initializers.
-It needs to have refile cache parameters:
+If using S3 to cache/store files needs to have refile cache/store configurated.
 
 ```ruby
 require "refile/s3"
@@ -42,6 +42,20 @@ Refile.cache = Refile::S3.new(prefix: "cache", **aws)
 Refile.store = Refile::S3.new(prefix: "store", **aws)
 
 Refile.cdn_host = Rails.application.secrets.cdn_host if Rails.env.production?
+```
+
+### S3 Bucket CORS config
+
+```xml
+<CORSConfiguration>
+  <CORSRule>
+    <AllowedOrigin>http://localhost:3000</AllowedOrigin>
+    <AllowedMethod>GET</AllowedMethod>
+    <AllowedMethod>POST</AllowedMethod>
+    <AllowedMethod>PUT</AllowedMethod>
+    <AllowedHeader>*</AllowedHeader>
+  </CORSRule>
+</CORSConfiguration>
 ```
 
 ## Usage
@@ -77,4 +91,3 @@ To check images on view, use `attachment_url` helper:
 ```ruby
 image_tag attachment_url(post, :cover_image, :fill, 100, 100)
 ```
-
