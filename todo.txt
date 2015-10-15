@@ -1,3 +1,6 @@
+√ Solve 100% width problem
+- Create multiple images upload
+- Create file (such as PDF, DOC, XLS.. non images files) upload
 - Upgrade React version to 0.14 http://facebook.github.io/react/blog/2015/10/07/react-v0.14.html
 - Add support to turbolinks (Rails 5)
 - Verify how to add ES6 dependency on gem only

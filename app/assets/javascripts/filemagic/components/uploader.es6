@@ -9,11 +9,9 @@ class Uploader extends React.Component {
   }
 
   componentWillMount() {
-    var previewSize = this.props.previewSize;
-    this.uploaderDimension = _.isEmpty(previewSize) ? {width: '400px', height: '200px'} : previewSize;
+    this.setDimension();
+
     this.attributeName = this.props.object + "[" + this.props.attribute + "]";
-    this.previewWidth = _.isEmpty(previewSize) ? 400 : parseInt(previewSize.width)
-    this.previewHeight = _.isEmpty(previewSize) ? 200 : parseInt(previewSize.height)
 
     var actualFile = this.props.previewUrl;
     if (actualFile) {
@@ -114,6 +112,32 @@ class Uploader extends React.Component {
 
   dragOut(event) {
     this.setState({ status: 'dragover' });
+  }
+
+  setDimension() {
+    var previewSize = this.props.previewSize;
+    var defaultDimension = {width: '400px', height: '200px'};
+
+    this.uploaderDimension = _.isEmpty(previewSize) ? defaultDimension : previewSize;
+
+    if (_.isEmpty(previewSize)){
+
+      this.uploaderDimension = defaultDimension;
+      this.previewHeight = parseInt(defaultDimension.height);
+      this.previewWidth = parseInt(defaultDimension.width);
+
+    } else {
+
+      this.previewHeight = parseInt(previewSize.height);
+      this.previewWidth = parseInt(previewSize.width);
+      this.uploaderDimension = previewSize;
+
+      if (previewSize.width == '100%') {
+        var container = $('.js-component.filemagic-container')[0];
+        this.previewWidth = parseInt(container.offsetWidth);
+      }
+
+    }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
