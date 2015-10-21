@@ -12,6 +12,7 @@ class Uploader extends React.Component {
     this.setDimension();
 
     this.attributeName = this.props.object + "[" + this.props.attribute + "]";
+    this.attributeId = this.props.object + "_" + this.props.attribute;
 
     var actualFile = this.props.previewUrl;
     if (actualFile) {
@@ -172,7 +173,7 @@ class Uploader extends React.Component {
     return(
     <div className={uploaderClasses} style={this.uploaderDimension}>
       <input value={JSON.stringify(this.state.inputValue)} type="hidden" name={this.attributeName} />
-      <input type="file" name={this.attributeName} ref="uploader" />
+      <input type="file" id={this.attributeId} ref="uploader" />
 
       <div className={previewClasses} ref="preview"></div>
       <div className={msgClasses}>Arraste a imagem aqui</div>
