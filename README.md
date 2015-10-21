@@ -78,6 +78,11 @@ Add input on form:
 <%= f.filemagic_field :cover_image %>
 ```
 
+Preview size can be customized with a `preview_size` option:
+```ruby
+<%= f.filemagic_field :cover_image, preview_size: {width: '100px', height: '100px'} %>
+```
+
 Whitelist attribute on strong parameters controller:
 
 ```ruby
