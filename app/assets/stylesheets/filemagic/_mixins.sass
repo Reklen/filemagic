@@ -1,21 +1,21 @@
-@mixin clearfix
+=clearfix
   &::after
     clear: both
     content: ""
     display: table
 
-@mixin blockleft
+=blockleft
   display: block
   float: left
 
-@mixin v-align
+=v-align
   position: relative
   top: 50%
   -webkit-transform: translateY(-50%)
   -ms-transform: translateY(-50%)
   transform: translateY(-50%)
 
-@mixin placeholder($color)
+=placeholder($color)
   &::-webkit-input-placeholder
     color: $color
   &:-moz-placeholder
@@ -25,7 +25,7 @@
   &:-ms-input-placeholder
     color: $color
 
-@mixin admin-icon($icon-name)
+=admin-icon($icon-name)
   width: 30px
   height: 30px
   background-size: 30px
@@ -38,7 +38,7 @@
     background-image: image-url("filemagic/admicon-#{$icon-name}-blue.svg")
     background-color: #fff
 
-@mixin input
+=input
   padding: 40px 20px 20px
   font-weight: 300
   max-width: 100%
@@ -60,7 +60,7 @@
     outline: none
     color: #000
 
-@mixin loader($item, $duration, $size, $color, $border, $hover: running)
+=loader($item, $duration, $size, $color, $border, $hover: running)
   #{$item}
     width: $size/2
     height: $size
