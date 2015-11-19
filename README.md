@@ -44,6 +44,12 @@ Refile.store = Refile::S3.new(prefix: "store", **aws)
 Refile.cdn_host = Rails.application.secrets.cdn_host if Rails.env.production?
 ```
 
+Add mount route to `routes.rb`
+
+```ruby
+mount Filemagic::Engine => "/filemagic"
+```
+
 ### S3 Bucket CORS config
 
 ```xml
