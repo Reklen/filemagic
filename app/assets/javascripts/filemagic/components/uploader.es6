@@ -35,6 +35,19 @@ class Uploader extends React.Component {
       progress: this.progress.bind(this),
       done: this.done.bind(this)
     });
+
+    var previewStatus = (this.props.previewUrl) ? 'done' : 'loading';
+    this.setState({ status: previewStatus });
+  }
+
+  componentDidUpdate() {
+    if (this.state.status == 'done' || this.state.status == 'empty'){
+      $(':submit').addClass("btn-done")
+      $(':submit').removeClass("btn-disabled")
+    } else {
+      $(':submit').addClass("btn-disabled")
+      $(':submit').removeClass("btn-done")
+    }
   }
 
   getFormData() {
@@ -50,6 +63,7 @@ class Uploader extends React.Component {
   }
 
   add(e, data) {
+    this.setState({progress: 0, status: 'loading'});
     this.file = data.files[0];
 
     this.showPreview(this.file)
@@ -85,8 +99,6 @@ class Uploader extends React.Component {
     $(image).hide();
     $(element).append($(image).fadeIn());
 
-    var previewStatus = (this.props.previewUrl) ? 'done' : 'loading';
-    this.setState({ status: previewStatus });
   }
 
   done(e, data) {
