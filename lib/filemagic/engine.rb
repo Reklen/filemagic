@@ -16,6 +16,9 @@ class ActionView::Helpers::FormBuilder
   def filemagic_field(attribute_name, options={})
     preview_size = options[:preview_size] || {}
     preview_url = Refile.attachment_url(@object, attribute_name) || ''
+
+    is_file_field = options[:is_file_field] || false
+
     data_attributes = {
       component: 'Uploader',
       object: object_name,
@@ -25,6 +28,7 @@ class ActionView::Helpers::FormBuilder
       as: "file",
       url: "/attachments/cache",
       fields: {},
+      is_file_field: is_file_field
       }
 
     data_attributes = data_attributes.merge(Refile.cache.presign.as_json) if Refile.cache.class.method_defined?(:presign)

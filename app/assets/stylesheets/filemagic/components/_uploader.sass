@@ -1,7 +1,6 @@
 .filemagic-container
   font-family: 'Lato', Helvetica, Arial, sans-serif
-  overflow: auto
-  padding: 20px 0
+  overflow: hidden
   &, a
     -webkit-font-smoothing: antialiased
     -moz-osx-font-smoothing: grayscale
@@ -68,3 +67,9 @@
   &.editor-img--done .preview
     -moz-opacity: 1
     opacity: 1
+
+  .filemagic-filename
+    color: red
+    position: absolute
+    overflow-wrap: break-word
+    word-wrap: break-word

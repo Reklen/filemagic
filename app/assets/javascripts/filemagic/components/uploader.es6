@@ -4,20 +4,29 @@ class Uploader extends React.Component {
     this.state = {
       status: 'empty',
       progress: 0,
-      inputValue: {}
+      inputValue: {},
+      filename: ''
     };
   }
 
   componentWillMount() {
     this.setDimension();
+    this.setFilenamePosition();
 
     this.attributeName = this.props.object + "[" + this.props.attribute + "]";
     this.attributeId = this.props.object + "_" + this.props.attribute;
 
+    this.isFileField = this.props.isFileField
+
     var actualFile = this.props.previewUrl;
-    if (actualFile) {
+    if (actualFile && !this.isFileField) {
       this.showPreview(actualFile);
     }
+
+    if (this.isFileField) {
+      this.setFilename(actualFile);
+    }
+
   }
 
   componentDidMount() {
@@ -69,7 +78,7 @@ class Uploader extends React.Component {
     this.setState({progress: 0, status: 'loading'});
     this.file = data.files[0];
 
-    this.showPreview(this.file)
+    this.showPreview(this.file);
 
     data.submit();
   }
@@ -114,6 +123,11 @@ class Uploader extends React.Component {
         "size": this.file.size
       }
     });
+
+    if (this.isFileField) {
+      this.setFilename(this.state.inputValue);
+    }
+
   }
 
   dragOverDocument(event) {
@@ -160,6 +174,20 @@ class Uploader extends React.Component {
     return !_.isEqual(this.state, nextState);
   }
 
+  setFilename(actualFile){
+    var fileUrl = actualFile;
+    var filename = fileUrl.substr(fileUrl.lastIndexOf('/') + 1);
+    var extension = filename.substr(filename.lastIndexOf('.') + 1);
+
+    if(filename.length > 15) filename = filename.substring(0,15) + '...';
+
+    this.setState({filename: filename});
+  }
+
+  setFilenamePosition(){
+    this.filenamePosition = {top: (this.previewHeight / 3) + 'px'}
+  }
+
   render () {
     var uploaderClasses = classNames('filemagic-uploader', 'editor-img', 'editor-img--home_banner', {
       'editor-img--empty': this.state.status == 'empty',
@@ -185,8 +213,16 @@ class Uploader extends React.Component {
       'show': this.state.status == 'loading'
     });
 
+    var filename;
+    if (this.isFileField && this.state.status == 'done') {
+      filename = <span className="filemagic-filename" style={this.filenamePosition}>{this.state.filename}</span>
+    }
+
     return(
     <div className={uploaderClasses} style={this.uploaderDimension}>
+
+      {filename}
+
       <input value={JSON.stringify(this.state.inputValue)} type="hidden" name={this.attributeName} />
       <input type="file" id={this.attributeId} ref="uploader" />
 
