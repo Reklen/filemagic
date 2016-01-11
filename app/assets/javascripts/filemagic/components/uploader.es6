@@ -41,13 +41,16 @@ class Uploader extends React.Component {
   }
 
   componentDidUpdate() {
+    var submitButton = $("input:submit[name='commit']")
+
     if (this.state.status == 'done' || this.state.status == 'empty'){
-      $(':submit').addClass("btn-done")
-      $(':submit').removeClass("btn-disabled")
+      submitButton.addClass("btn-done")
+      submitButton.removeClass("btn-disabled")
     } else {
-      $(':submit').addClass("btn-disabled")
-      $(':submit').removeClass("btn-done")
+      submitButton.addClass("btn-disabled")
+      submitButton.removeClass("btn-done")
     }
+
   }
 
   getFormData() {
