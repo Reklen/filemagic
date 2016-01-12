@@ -84,9 +84,16 @@ Add input on form:
 <%= f.filemagic_field :cover_image %>
 ```
 
+### Input options
+
 Preview size can be customized with a `preview_size` option:
 ```ruby
 <%= f.filemagic_field :cover_image, preview_size: {width: '100px', height: '100px'} %>
+```
+
+If is a file to be input, set `is_file_field` to `true`. (Hides image preview and display file icon on hover)
+```ruby
+<%= f.filemagic_field :program, is_file_field: true, preview_size: {width: '200px', height: '200px'} %>
 ```
 
 Whitelist attribute on strong parameters controller:
