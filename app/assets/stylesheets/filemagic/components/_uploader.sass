@@ -22,16 +22,9 @@
   text-align: center
   transition: all .1s ease, background-size .01s ease
 
-  input[type="file"]
-    outline: none
-    position: relative
-    text-align: right
-    -moz-opacity: 0
-    opacity: 0
-    z-index: 2
-    width: 100%
-    height: 100%
-    cursor: pointer
+  &:hover
+    color: $blue
+    border-color: currentColor
 
   .editor-element-text
     +v-align
@@ -57,15 +50,6 @@
     top: -20px
     left: 0
 
-  &.editor-img--empty
-    cursor: pointer
-    +admin-icon(image_big)
-    background-size: 60px
-    &:hover
-      border-color: $blue
-      background-image: image-url("filemagic/admicon-cross-blue.svg")
-      background-size: 30px
-
   &.editor-img--drag
     background-color: rgba($blue, .2)
     border-color: $blue
@@ -83,8 +67,8 @@
   &.editor-img--processing
     background-color: #fff
     &:before
+      @include opacity(0.1)
       content: ""
-      opacity: .1
       background-size: cover
       background-position: center
       width: 100%
@@ -165,6 +149,7 @@
         width: 76px
 
   .preview
+    @include opacity(0.2)
     background-size: cover
     background-position: center
     width: 100%
@@ -172,15 +157,13 @@
     position: absolute
     top: -2px
     left: -2px
-    -moz-opacity: 0.2
-    opacity: 0.2
     &.show
       display: block
 
   &.editor-img--done
     border-style: solid
     nav
-      opacity: 0
+      @include opacity(0)
       transition: all .2s ease
       background-color: rgba(#fff, .6)
       padding: 30px 50px
@@ -200,14 +183,76 @@
     &:hover
       border-color: $blue
       nav
-        opacity: 1
+        @include opacity(1)
 
   &.editor-img--done .preview
     -moz-opacity: 1
     opacity: 1
 
+  &.editor-img--done
+    &:hover
+      &:after
+        @include opacity(0.6)
+  &.editor-img--done:after
+    content: ""
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    background-color: #000
+    @include opacity(0)
+    pointer-events: none
+    z-index: 1
+    transition: opacity 0.3s
+
   .filemagic-filename
-    color: red
     position: absolute
     overflow-wrap: break-word
     word-wrap: break-word
+
+.filemagic-uploader-actions
+  height: 40px
+
+  &.hide
+    display: none
+
+  &.filemagic-uploader-actions--empty
+    height: 100%
+
+  input[type="file"]
+    @include opacity(0)
+    cursor: pointer
+    height: 100%
+    outline: none
+    position: relative
+    text-align: right
+    width: 100%
+    z-index: 2
+
+  .filemagic-add-new-button
+    transition: all .2s ease
+    background: image-url("filemagic/admicon-image.svg") no-repeat center center
+    border-radius: 50%
+    border: 1px solid hsl(0, 0%, 60%)
+    height: 50px
+    left: calc(50% - 25px)
+    position: absolute
+    top: calc(50% - 25px)
+    width: 50px
+
+.filemagic-uploader-actions-caption
+  color: hsl(0, 0%, 60%)
+  font-size: 0.8rem
+  line-height: 1.3rem
+  position: relative
+  top: calc(-50% + 36px)
+  &:hover
+    color: $blue
+.filemagic-uploader:hover
+  .filemagic-uploader-actions
+    .filemagic-add-new-button, .filemagic-uploader-actions-caption
+      border-color: $blue
+      color: $blue
+    .filemagic-add-new-button
+      background-image: image-url("filemagic/admicon-cross-blue.svg")

@@ -30,7 +30,7 @@ class Uploader extends React.Component {
   }
 
   componentDidMount() {
-    var element = React.findDOMNode(this.refs.uploader);
+    var element = React.findDOMNode(this.refs.uploaderInput);
 
     $(document).bind('dragover', this.dragOverDocument.bind(this));
     $(element).bind('dragover', this.dragOver.bind(this));
@@ -221,13 +221,29 @@ class Uploader extends React.Component {
       filename = <span className="filemagic-filename" style={this.filenamePosition}>{this.state.filename}</span>
     }
 
+    var uploaderActionClasses = classNames('filemagic-uploader-actions', {
+      'filemagic-uploader-actions--empty': this.state.status == 'empty',
+      'filemagic-uploader-actions--done': this.state.status == 'done',
+      'hide': this.state.status == 'loading'
+    });
+
+    var addNewButtonClasses = classNames('filemagic-add-new-button');
+
     return(
     <div className={uploaderClasses} style={this.uploaderDimension}>
 
       {filename}
 
       <input value={JSON.stringify(this.state.inputValue)} type="hidden" name={this.attributeName} />
-      <input type="file" id={this.attributeId} ref="uploader"/>
+
+      <div className={uploaderActionClasses}>
+
+        <input type="file" id={this.attributeId} ref="uploaderInput"/>
+
+        <div className={addNewButtonClasses}></div>
+        <span className="filemagic-uploader-actions-caption">Adicionar imagem</span>
+
+      </div>
 
       <div className={previewClasses} ref="preview"></div>
       <div className={msgClasses}>
