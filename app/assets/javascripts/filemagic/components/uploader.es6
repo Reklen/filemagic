@@ -45,21 +45,28 @@ class Uploader extends React.Component {
       done: this.done.bind(this)
     });
 
-    var previewStatus = (this.props.previewUrl) ? 'done' : 'loading';
+    var previewStatus = (this.props.previewUrl) ? 'done' : 'empty';
     this.setState({ status: previewStatus });
   }
 
   componentDidUpdate() {
-    var submitButton = $("input:submit[name='commit']")
-
-    if (this.state.status == 'done' || this.state.status == 'empty'){
-      submitButton.addClass("btn-done")
-      submitButton.removeClass("btn-disabled")
-    } else {
-      submitButton.addClass("btn-disabled")
-      submitButton.removeClass("btn-done")
+    if (this.state.status == 'loading') {
+      this.disableSubmitButton()
+    } else if(this.state.status == 'done'){
+      this.enableSubmitButton()
     }
+  }
 
+  disableSubmitButton() {
+    var submitButton = $("input:submit[name='commit']")
+    submitButton.addClass("btn-disabled")
+    submitButton.removeClass("btn-done")
+  }
+
+  enableSubmitButton() {
+    var submitButton = $("input:submit[name='commit']")
+    submitButton.addClass("btn-done")
+    submitButton.removeClass("btn-disabled")
   }
 
   getFormData() {
@@ -84,19 +91,15 @@ class Uploader extends React.Component {
   }
 
   showPreview(file) {
-    // TODO: Think about some other way to validate if is an image, when loading image for editing
-    //       when editing model, file is not loaded to data, as it does when selecting an image on input button
-    // if (file.type && file.type.match(/gif|jpe?g|png/)) {
-      loadImage(file, this.appendPreview.bind(this), {
-        maxWidth: this.previewWidth,
-        maxHeight: this.previewHeight,
-        minWidth: 100,
-        minHeight: 100,
-        canvas: true,
-        crop: true,
-        orientation: true
-      });
-    // }
+    loadImage(file, this.appendPreview.bind(this), {
+      maxWidth: this.previewWidth,
+      maxHeight: this.previewHeight,
+      minWidth: 100,
+      minHeight: 100,
+      canvas: true,
+      crop: true,
+      orientation: true
+    });
   }
 
   progress(e, data) {
@@ -189,7 +192,7 @@ class Uploader extends React.Component {
   }
 
   render () {
-    var uploaderClasses = classNames('filemagic-uploader', 'editor-img', 'editor-img--home_banner', {
+    var uploaderClasses = classNames('filemagic-uploader', {
       'editor-img--empty': this.state.status == 'empty',
       'editor-img--drag': this.state.status == 'dragover',
       'editor-img--dragenter': this.state.status == 'dragenter',
@@ -224,16 +227,18 @@ class Uploader extends React.Component {
       {filename}
 
       <input value={JSON.stringify(this.state.inputValue)} type="hidden" name={this.attributeName} />
-      <input type="file" id={this.attributeId} ref="uploader" />
+      <input type="file" id={this.attributeId} ref="uploader"/>
 
       <div className={previewClasses} ref="preview"></div>
-      <div className={msgClasses}>Arraste a imagem aqui</div>
+      <div className={msgClasses}>
+        <span>Arraste a imagem aqui</span>
+      </div>
 
       <div className={loaderWrapperClasses}>
         <div className="loader-border">
           <div className="loader" data-progress={this.state.progress}>
-            <div className="loader-element loader-spinner"></div>
-            <div className="loader-element loader-filler"></div>
+            <div className="loader-element loader-spinner"/>
+            <div className="loader-element loader-filler"/>
           </div>
         </div>
       </div>
