@@ -19,10 +19,13 @@ class ActionView::Helpers::FormBuilder
 
     is_file_field = options[:is_file_field] || false
 
+    custom_attribute_name = options[:input_html][:name] || false
+
     data_attributes = {
       component: 'Uploader',
       object: object_name,
       attribute: attribute_name,
+      custom_attribute_name: custom_attribute_name,
       preview_size: preview_size,
       preview_url: preview_url,
       as: "file",

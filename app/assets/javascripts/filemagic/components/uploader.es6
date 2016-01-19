@@ -13,7 +13,8 @@ class Uploader extends React.Component {
     this.setDimension();
     this.setFilenamePosition();
 
-    this.attributeName = this.props.object + "[" + this.props.attribute + "]";
+    var defaultAttributeName = this.props.object + "[" + this.props.attribute + "]";
+    this.attributeName = !this.props.customAttributeName ? defaultAttributeName : this.props.customAttributeName;
     this.attributeId = this.props.object + "_" + this.props.attribute;
 
     this.isFileField = this.props.isFileField
