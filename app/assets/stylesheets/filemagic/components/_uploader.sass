@@ -213,12 +213,10 @@
 
 .filemagic-uploader-actions
   height: 40px
-
+  z-index: 5
+  position: relative
   &.hide
     display: none
-
-  &.filemagic-uploader-actions--empty
-    height: 100%
 
   input[type="file"]
     @include opacity(0)
@@ -240,19 +238,58 @@
     position: absolute
     top: calc(50% - 25px)
     width: 50px
+    cursor: pointer
+
+
+.filemagic-uploader-actions--empty
+  height: 100%
+  color: hsl(0, 0%, 60%)
+
+.filemagic-uploader-actions--done
+  position: relative
+  top: calc(50% - 20px)
+  input[type="file"]
+    height: 50px
+    width: 50px
+    display: block
+    margin: auto auto
+    &:hover
+      .filemagic-add-new-button
+        border-color: $blue
 
 .filemagic-uploader-actions-caption
-  color: hsl(0, 0%, 60%)
   font-size: 0.8rem
   line-height: 1.3rem
   position: relative
   top: calc(-50% + 36px)
   &:hover
     color: $blue
+
 .filemagic-uploader:hover
   .filemagic-uploader-actions
-    .filemagic-add-new-button, .filemagic-uploader-actions-caption
-      border-color: $blue
+    .filemagic-uploader-actions--empty > .filemagic-uploader-actions-caption
       color: $blue
-    .filemagic-add-new-button
+    .filemagic-uploader-actions--done, .filemagic-uploader-actions-caption
+      color: #fff
+    .filemagic-uploader-actions--empty, .filemagic-add-new-button
+      border-color: $blue
+    .filemagic-uploader-actions--empty, .filemagic-add-new-button
       background-image: image-url("filemagic/admicon-cross-blue.svg")
+    .filemagic-uploader-actions--done, .filemagic-add-new-button, input[type="file"]
+      border-color: #fff
+      &:hover
+        border-color: $blue
+    .filemagic-uploader-actions--done, .filemagic-add-new-button
+      background-image: image-url("filemagic/admicon-cross.svg")
+
+.filemagic-uploader
+  .filemagic-uploader-actions.filemagic-uploader-actions--done
+    display: none
+  &:hover
+    .filemagic-uploader-actions.filemagic-uploader-actions--done
+      display: block
+      color: #fff
+
+
+
+

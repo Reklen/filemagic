@@ -229,6 +229,8 @@ class Uploader extends React.Component {
 
     var addNewButtonClasses = classNames('filemagic-add-new-button');
 
+    var addNewMessage = this.state.status == 'empty' ? 'Adicionar imagem' : 'Nova imagem';
+
     return(
     <div className={uploaderClasses} style={this.uploaderDimension}>
 
@@ -241,7 +243,7 @@ class Uploader extends React.Component {
         <input type="file" id={this.attributeId} ref="uploaderInput"/>
 
         <div className={addNewButtonClasses}></div>
-        <span className="filemagic-uploader-actions-caption">Adicionar imagem</span>
+        <span className="filemagic-uploader-actions-caption">{addNewMessage}</span>
 
       </div>
 
