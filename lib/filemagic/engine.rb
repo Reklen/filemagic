@@ -19,7 +19,9 @@ class ActionView::Helpers::FormBuilder
 
     is_file_field = options[:is_file_field] || false
 
-    custom_attribute_name = options[:input_html][:name] || false
+    input_html_options = options[:input_html] || false
+
+    custom_attribute_name = input_html_options ?  input_html_options[:name] : false
 
     data_attributes = {
       component: 'Uploader',

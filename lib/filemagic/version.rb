@@ -1,3 +1,3 @@
 module Filemagic
-  VERSION = "0.1.6-d"
+  VERSION = "0.1.7-a"
 end
