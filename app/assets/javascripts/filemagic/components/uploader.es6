@@ -31,7 +31,7 @@ class Uploader extends React.Component {
   }
 
   componentDidMount() {
-    var element = React.findDOMNode(this.refs.uploaderInput);
+    var element = ReactDOM.findDOMNode(this.refs.uploaderInput);
 
     $(document).bind('dragover', this.dragOverDocument.bind(this));
     $(element).bind('dragover', this.dragOver.bind(this));
@@ -109,7 +109,7 @@ class Uploader extends React.Component {
   }
 
   appendPreview(image) {
-    var element = React.findDOMNode(this.refs.preview);
+    var element = ReactDOM.findDOMNode(this.refs.preview);
 
     $(element).html('');
     $(image).hide();
@@ -167,7 +167,7 @@ class Uploader extends React.Component {
       this.uploaderDimension = previewSize;
 
       if (previewSize.width == '100%') {
-        var container = $('.js-component.filemagic-container')[0];
+        var container = $('.filemagic-container')[0];
         this.previewWidth = parseInt(container.offsetWidth);
       }
 

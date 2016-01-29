@@ -38,6 +38,6 @@ class ActionView::Helpers::FormBuilder
 
     data_attributes = data_attributes.merge(Refile.cache.presign.as_json) if Refile.cache.class.method_defined?(:presign)
 
-    @template.content_tag(:div, nil, { class: 'js-component filemagic-container', data: data_attributes})
+    @template.content_tag(:div, nil, { class: 'filemagic-container', data: data_attributes})
   end
 end

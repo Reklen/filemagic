@@ -1,5 +1,5 @@
 //= require filemagic/react
-//= require filemagic/react-with-addons
+//= require filemagic/react-dom
 //= require filemagic/lodash
 //= require filemagic/canvas-to-blob
 //= require filemagic/load-image.all.min
