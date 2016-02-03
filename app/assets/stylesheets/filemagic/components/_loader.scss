@@ -1,3 +1,7 @@
+@mixin stroke-width($value) {
+  stroke-width: $value * .64;
+}
+
 .fm-uploader__loader {
   border-radius: 50%;
   box-shadow: 0 0 0 4px white inset;
@@ -6,9 +10,14 @@
   width: 100px;
 
   circle {
+   @include stroke-width(4);
    stroke: $color-primary;
    stroke-dasharray: 80 100;
-   stroke-width: 2.56;
  }
 
+}
+
+.fm-uploader__loader-text {
+  color: white;
+  font-size: 22px;
 }

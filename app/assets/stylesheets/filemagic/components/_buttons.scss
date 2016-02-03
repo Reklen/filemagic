@@ -1,11 +1,12 @@
 [class^='actions__btn'] {
   cursor: pointer;
   display: none;
+  margin: 0 5px;
   padding: 10px 0;
   position: relative;
   text-align: center;
   top: calc(50% - 40px);
-  width: 100px;
+  width: 80px;
   z-index: 2;
 
   &::before {
@@ -31,5 +32,8 @@
 
 .actions__caption {
   display: block;
+  margin-left: -30px;
+  margin-right: -30px;
   margin-top: 10px;
+  width: 140px;
 }
