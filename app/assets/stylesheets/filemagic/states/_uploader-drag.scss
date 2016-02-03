@@ -1,0 +1,51 @@
+[class*='fm-uploader__img--drag'] {
+  border-style: dashed;
+
+  &::after {
+    content: '';
+    height: 100%;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+
+  .actions__btn-add {
+    display: none;
+  }
+
+  .fm-uploader__drag-text {
+    display: inline-block;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+.fm-uploader__img--dragover {
+  border-color: $color-primary;
+
+  &::after {
+    background-color: rgba($color-primary, .2);
+    opacity: 1;
+  }
+
+  .fm-uploader__drag-text {
+    color: $color-primary;
+  }
+}
+
+.fm-uploader__img--dragenter {
+  border-color: darken($color-primary, .3);
+
+  &::after {
+    background-color: darken($color-primary, .3);
+    opacity: .6;
+  }
+
+  .fm-uploader__drag-text {
+    color: darken($color-primary, .3);
+  }
+}

@@ -31,11 +31,11 @@ class Uploader extends React.Component {
   }
 
   componentDidMount() {
-    var element = ReactDOM.findDOMNode(this.refs.uploaderInput);
+    var element = ReactDOM.findDOMNode(this.refs.fmUploaderContainer);
 
     $(document).bind('dragover', this.dragOverDocument.bind(this));
     $(element).bind('dragover', this.dragOver.bind(this));
-    $(element).bind('dragleave', this.dragOut.bind(this));
+    $(element).bind('dragleave', this.dragLeave.bind(this));
 
     $(element).fileupload({
       url: this.props.url,
@@ -46,28 +46,26 @@ class Uploader extends React.Component {
       done: this.done.bind(this)
     });
 
-    var previewStatus = (this.props.previewUrl) ? 'done' : 'empty';
+    var previewStatus = (this.props.previewUrl) ? 'filled' : 'empty';
     this.setState({ status: previewStatus });
   }
 
   componentDidUpdate() {
     if (this.state.status == 'loading') {
       this.disableSubmitButton()
-    } else if(this.state.status == 'done'){
+    } else if(this.state.status == 'filled'){
       this.enableSubmitButton()
     }
   }
 
   disableSubmitButton() {
     var submitButton = $("input:submit[name='commit']")
-    submitButton.addClass("btn-disabled")
-    submitButton.removeClass("btn-done")
+    submitButton.prop("disabled", true);
   }
 
   enableSubmitButton() {
     var submitButton = $("input:submit[name='commit']")
-    submitButton.addClass("btn-done")
-    submitButton.removeClass("btn-disabled")
+    submitButton.prop("disabled", false);
   }
 
   getFormData() {
@@ -119,7 +117,7 @@ class Uploader extends React.Component {
 
   done(e, data) {
     this.setState({
-      status: 'done',
+      status: 'filled',
       inputValue: {
         "id": this.props.id || data.result.id,
         "filename": this.file.name,
@@ -144,7 +142,7 @@ class Uploader extends React.Component {
     this.setState({ status: 'dragenter' });
   }
 
-  dragOut(event) {
+  dragLeave(event) {
     this.setState({ status: 'dragover' });
   }
 
@@ -167,7 +165,7 @@ class Uploader extends React.Component {
       this.uploaderDimension = previewSize;
 
       if (previewSize.width == '100%') {
-        var container = $('.filemagic-container')[0];
+        var container = $('.fm-uploader-wrapper')[0];
         this.previewWidth = parseInt(container.offsetWidth);
       }
 
@@ -193,47 +191,32 @@ class Uploader extends React.Component {
   }
 
   render () {
-    var uploaderClasses = classNames('filemagic-uploader', {
-      'editor-img--empty': this.state.status == 'empty',
-      'editor-img--drag': this.state.status == 'dragover',
-      'editor-img--dragenter': this.state.status == 'dragenter',
-      'editor-img--loading': this.state.status == 'loading',
-      'editor-img--done': this.state.status == 'done'
-    });
-
-    var msgClasses = classNames('editor-element-text', {
-      'show': this.state.status == 'dragover' || this.state.status == 'dragenter'
-    });
-
-    var previewClasses = classNames('preview', {
-      'show': this.state.status == 'loading'
-    });
-
-    var loaderWrapperClasses = classNames('loader-wrapper', {
-      'show': this.state.status == 'loading'
-    });
-
-    var loaderTextWrapperClasses = classNames('editor-element-text loader-text', {
-      'show': this.state.status == 'loading'
+    var uploaderClasses = classNames('fm-uploader', {
+      'fm-uploader__img--empty': this.state.status == 'empty',
+      'fm-uploader__img--dragover': this.state.status == 'dragover',
+      'fm-uploader__img--dragenter': this.state.status == 'dragenter',
+      'fm-uploader__img--loading': this.state.status == 'loading',
+      'fm-uploader__img--filled': this.state.status == 'filled'
     });
 
     var filename;
-    if (this.isFileField && this.state.status == 'done') {
-      filename = <span className="filemagic-filename" style={this.filenamePosition}>{this.state.filename}</span>
+
+    if (this.isFileField && this.state.status == 'filled') {
+      filename = <span className="fm-uploader__filename" style={this.filenamePosition}>{this.state.filename}</span>
     }
 
-    var uploaderActionClasses = classNames('filemagic-uploader-actions', {
-      'filemagic-uploader-actions--empty': this.state.status == 'empty',
-      'filemagic-uploader-actions--done': this.state.status == 'done',
+    var uploaderActionClasses = classNames('fm-uploader__actions', {
+      'fm-uploader__actions--empty': this.state.status == 'empty',
+      'fm-uploader__actions--filled': this.state.status == 'filled',
       'hide': this.state.status == 'loading'
     });
 
-    var addNewButtonClasses = classNames('filemagic-add-new-button');
+    var addNewButtonClasses = classNames('actions__btn-add');
 
     var addNewMessage = this.state.status == 'empty' ? 'Adicionar imagem' : 'Nova imagem';
 
     return(
-    <div className={uploaderClasses} style={this.uploaderDimension}>
+    <div className={uploaderClasses} style={this.uploaderDimension} ref="fmUploaderContainer">
 
       {filename}
 
@@ -241,28 +224,33 @@ class Uploader extends React.Component {
 
       <div className={uploaderActionClasses}>
 
-        <input type="file" id={this.attributeId} ref="uploaderInput"/>
+        <div className="actions__btn-remove">
+          <a className="actions__caption">Remover imagem</a>
+        </div>
 
-        <div className={addNewButtonClasses}></div>
-        <span className="filemagic-uploader-actions-caption">{addNewMessage}</span>
+        <input type="file" id={this.attributeId} ref="uploaderInput"/>
+        <label className={addNewButtonClasses} htmlFor={this.attributeId}>
+          <a className="actions__caption">{addNewMessage}</a>
+        </label>
+
+        <div className="actions__btn-edit">
+          <a className="actions__caption">Editar imagem</a>
+        </div>
 
       </div>
 
-      <div className={previewClasses} ref="preview"></div>
-      <div className={msgClasses}>
+      <div className="fm-uploader__preview" ref="preview"></div>
+      <div className="fm-uploader__drag-text">
         <span>Arraste a imagem aqui</span>
       </div>
 
-      <div className={loaderWrapperClasses}>
-        <div className="loader-border">
-          <div className="loader" data-progress={this.state.progress}>
-            <div className="loader-element loader-spinner"/>
-            <div className="loader-element loader-filler"/>
-          </div>
-        </div>
+      <div className="fm-uploader__loader-wrapper" data-progress={this.state.progress}>
+        <svg viewBox="0 0 32 32" className="fm-uploader__loader">
+          <circle fillOpacity={0} r="50%" cx="50%" cy="50%" style={{strokeDasharray:this.state.progress + ' 100'}} />
+        </svg>
+        <div className="fm-uploader__loader-text">{this.state.progress}%</div>
       </div>
 
-      <div className={loaderTextWrapperClasses}>{this.state.progress}%</div>
     </div>
     );
   }

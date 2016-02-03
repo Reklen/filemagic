@@ -1,0 +1,14 @@
+.fm-uploader__loader {
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px white inset;
+  height: 100px;
+  transform: rotate(-90deg);
+  width: 100px;
+
+  circle {
+   stroke: $color-primary;
+   stroke-dasharray: 80 100;
+   stroke-width: 2.56;
+ }
+
+}

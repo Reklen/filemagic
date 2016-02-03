@@ -1,0 +1,43 @@
+.fm-uploader__img--empty {
+  border-style: dashed;
+  transition: all .3s;
+
+  %actions--center-align {
+    color: $color-secondary;
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translateX(-50%);
+  }
+
+  .actions__btn-add {
+    display: inline-block;
+    height: 100%;
+    top: 0;
+    transition: all .3s;
+    width: 100%;
+
+    &::before {
+      @extend %actions--center-align;
+      margin-top: -30px;
+    }
+  }
+
+  .actions__caption {
+    @extend %actions--center-align;
+    margin-top: 30px;
+  }
+
+  &:hover {
+    border-color: $color-primary;
+
+    .actions__btn-add::before {
+      color: $color-primary;
+      content: $fm-icon-plus;
+    }
+
+    .actions__caption {
+      color: $color-primary;
+    }
+  }
+}

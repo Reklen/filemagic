@@ -1,0 +1,20 @@
+.fm-uploader__img--loading {
+
+  .fm-uploader__loader-wrapper,
+  .fm-uploader__loader-text {
+    display: block;
+  }
+
+  .fm-uploader__loader-wrapper {
+    position: absolute;
+    top: 50%;
+    text-align: center;
+    transform: translateY(-100%);
+    width: 100%;
+  }
+
+  .fm-uploader__loader-text {
+    margin-top: -50px;
+  }
+
+}

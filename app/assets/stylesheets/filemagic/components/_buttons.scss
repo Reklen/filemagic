@@ -1,0 +1,35 @@
+[class^='actions__btn'] {
+  cursor: pointer;
+  display: none;
+  padding: 10px 0;
+  position: relative;
+  text-align: center;
+  top: calc(50% - 40px);
+  width: 100px;
+  z-index: 2;
+
+  &::before {
+    border: 1px solid;
+    border-radius: 50%;
+    line-height: 1;
+    padding: 5px;
+    position: relative;
+  }
+}
+
+.actions__btn-add {
+  @include fm-icon($fm-icon-image);
+}
+
+.actions__btn-remove {
+  @include fm-icon($fm-icon-x);
+}
+
+.actions__btn-edit {
+  @include fm-icon($fm-icon-pencil);
+}
+
+.actions__caption {
+  display: block;
+  margin-top: 10px;
+}
