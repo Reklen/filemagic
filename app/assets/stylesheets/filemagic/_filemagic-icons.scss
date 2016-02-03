@@ -1,12 +1,11 @@
 @font-face {
   font-family: 'filemagic-icons';
-  src: font-url('filemagic-icons.eot?xzmfbw');
-  src: font-url('filemagic-icons.eot?xzmfbw#iefix') format('embedded-opentype'),
-    font-url('filemagic-icons.ttf?xzmfbw') format('truetype'),
-    font-url('filemagic-icons.woff?xzmfbw') format('woff'),
-    font-url('filemagic-icons.svg?xzmfbw#icomoon') format('svg');
-  font-weight: normal;
   font-style: normal;
+  font-weight: 400;
+  src: font-url('filemagic-icons.woff') format('woff'),
+    font-url('filemagic-icons.ttf') format('ttf'),
+    font-url('filemagic-icons.eot') format('eot');
+  unicode-range: U+E900–U+F000;
 }
 
 $fm-icon-plus: '\e905';
