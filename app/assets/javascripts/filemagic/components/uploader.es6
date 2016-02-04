@@ -43,7 +43,8 @@ class Uploader extends React.Component {
       formData: this.getFormData.bind(this),
       add: this.add.bind(this),
       progress: this.progress.bind(this),
-      done: this.done.bind(this)
+      done: this.done.bind(this),
+      dropZone: $(element)
     });
 
     var previewStatus = (this.props.previewUrl) ? 'filled' : 'empty';
