@@ -13,13 +13,13 @@ class Uploader extends React.Component {
     this.setDimension();
     this.setFilenamePosition();
 
-    var defaultAttributeName = this.props.object + "[" + this.props.attribute + "]";
+    let defaultAttributeName = `${this.props.object}[${this.props.attribute}]`;
     this.attributeName = !this.props.customAttributeName ? defaultAttributeName : this.props.customAttributeName;
-    this.attributeId = this.props.object + "_" + this.props.attribute;
+    this.attributeId = `${this.props.object}_${this.props.attribute}`;
 
     this.isFileField = this.props.isFileField
 
-    var actualFile = this.props.previewUrl;
+    let actualFile = this.props.previewUrl;
     if (actualFile && !this.isFileField) {
       this.showPreview(actualFile);
     }
@@ -28,6 +28,7 @@ class Uploader extends React.Component {
       this.setFilename(actualFile);
     }
 
+    this.actions = this.props.actions
   }
 
   componentDidMount() {
@@ -91,15 +92,41 @@ class Uploader extends React.Component {
   }
 
   showPreview(file) {
-    loadImage(file, this.appendPreview.bind(this), {
-      maxWidth: this.previewWidth,
-      maxHeight: this.previewHeight,
+
+    let width, height
+
+    if (this.isRepositioning()){
+      let imageHeight = this.props.imageSize["height"]
+      let imageWidth = this.props.imageSize["width"]
+      let previewWidth = parseInt($('.fm-uploader-wrapper')[0].offsetWidth)
+      let coeficient = previewWidth / imageWidth
+
+      width = previewWidth
+      height = imageHeight * coeficient
+    } else {
+      width = this.previewWidth
+      height = this.previewHeight
+    }
+
+    let loadingImage = loadImage(file, this.appendPreview.bind(this), {
+      maxWidth: width,
+      maxHeight: height,
       minWidth: 100,
       minHeight: 100,
       canvas: true,
       crop: true,
       orientation: true
     });
+
+    loadingImage.addEventListener('load', () => {
+      this.setDimensionMetadata(loadingImage.naturalWidth, loadingImage.naturalHeight)
+    });
+
+  }
+
+  setDimensionMetadata(width, height){
+    this.width = width
+    this.height = height
   }
 
   progress(e, data) {
@@ -117,13 +144,22 @@ class Uploader extends React.Component {
   }
 
   done(e, data) {
+    let width = 0, height = 0
+
+    if (this.width && this.height) {
+      width = this.width
+      height = this.height
+    }
+
     this.setState({
       status: 'filled',
       inputValue: {
         "id": this.props.id || data.result.id,
         "filename": this.file.name,
         "content_type": this.file.type,
-        "size": this.file.size
+        "size": this.file.size,
+        "width": width,
+        "height": height
       }
     });
 
@@ -191,6 +227,10 @@ class Uploader extends React.Component {
     this.filenamePosition = {top: (this.previewHeight / 3) + 'px'}
   }
 
+  isRepositioning(){
+    return _.includes(this.props.actions, "reposition")
+  }
+
   render () {
     var uploaderClasses = classNames('fm-uploader', {
       'fm-uploader__img--empty': this.state.status == 'empty',
@@ -216,6 +256,22 @@ class Uploader extends React.Component {
 
     var addNewMessage = this.state.status == 'empty' ? 'Adicionar imagem' : 'Nova imagem';
 
+    let buttonRemove
+    if (_.includes(this.props.actions, "remove")) {
+      buttonRemove =
+        <div className="actions__btn-remove">
+          <a className="actions__caption">Remover imagem</a>
+        </div>
+    }
+
+    let buttonEdit
+    if (this.isRepositioning()) {
+      buttonEdit =
+        <div className="actions__btn-edit">
+          <a className="actions__caption">Editar imagem</a>
+        </div>
+    }
+
     return(
     <div className={uploaderClasses} style={this.uploaderDimension} ref="fmUploaderContainer">
 
@@ -225,18 +281,14 @@ class Uploader extends React.Component {
 
       <div className={uploaderActionClasses}>
 
-        <div className="actions__btn-remove">
-          <a className="actions__caption">Remover imagem</a>
-        </div>
+        {buttonRemove}
 
         <input type="file" id={this.attributeId} ref="uploaderInput"/>
         <label className={addNewButtonClasses} htmlFor={this.attributeId}>
           <a className="actions__caption">{addNewMessage}</a>
         </label>
 
-        <div className="actions__btn-edit">
-          <a className="actions__caption">Editar imagem</a>
-        </div>
+        {buttonEdit}
 
       </div>
 

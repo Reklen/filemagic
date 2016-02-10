@@ -32,3 +32,9 @@ $color-secondary: hsl(0, 0%, 60%);
 .fm-uploader__loader-text {
   display: none;
 }
+
+.fm-uploader__preview {
+  canvas {
+    position: relative;
+  }
+}

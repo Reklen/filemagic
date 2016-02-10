@@ -96,6 +96,11 @@ If is a file to be input, set `is_file_field` to `true`. (Hides image preview an
 <%= f.filemagic_field :program, is_file_field: true, preview_size: {width: '200px', height: '200px'} %>
 ```
 
+Action Buttons can be activated per field with an array passed through `actions`:
+```ruby
+<%= f.filemagic_field :cover_image, actions: ['remove', 'reposition'] %>
+```
+
 Whitelist attribute on strong parameters controller:
 
 ```ruby
