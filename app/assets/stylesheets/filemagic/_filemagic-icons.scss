@@ -25,12 +25,10 @@ $fm-icon-x: '\e917';
 }
 
 @mixin fm-icon($icon, $size: 40) {
-
   &::before {
     @extend %fm-icon-font-config;
     content: $icon;
     font-size: $size + px;
     vertical-align: middle;
   }
-
 }

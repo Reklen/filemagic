@@ -1,4 +1,4 @@
-[class*='fm-uploader__img--drag'] {
+%fm-uploader__img--drag {
   border-style: dashed;
 
   &::after {
@@ -25,6 +25,7 @@
 }
 
 .fm-uploader__img--dragover {
+  @extend %fm-uploader__img--drag;
   border-color: $color-primary;
 
   &::after {
@@ -38,6 +39,7 @@
 }
 
 .fm-uploader__img--dragenter {
+  @extend %fm-uploader__img--drag;
   border-color: darken($color-primary, .3);
 
   &::after {

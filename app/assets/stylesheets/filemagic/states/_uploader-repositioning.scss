@@ -1,0 +1,11 @@
+.fm-uploader__img--repositioning {
+
+  .ui-draggable-handle {
+    cursor: grab;
+
+    &.ui-draggable-dragging {
+      cursor: grabbing;
+    }
+  }
+
+}

@@ -1,11 +1,33 @@
+@charset 'UTF-8';
+
+//-------------------------------------
+// Files should be imported in this order:
+//
+// 1. General
+// 2. Components
+// 3. States
+//-------------------------------------
+
+//-------------------------------------
+// #1 GENERAL
+//-------------------------------------
 @import
 'filemagic/filemagic-icons',
-'filemagic/uploader',
+'filemagic/uploader';
 
+//-------------------------------------
+// #2 COMPONENTS
+//-------------------------------------
+@import
 'filemagic/components/buttons',
-'filemagic/components/loader',
+'filemagic/components/loader';
 
+//-------------------------------------
+// #3 STATES
+//-------------------------------------
+@import
 'filemagic/states/uploader-empty',
 'filemagic/states/uploader-filled',
 'filemagic/states/uploader-drag',
-'filemagic/states/uploader-loader';
+'filemagic/states/uploader-loading',
+'filemagic/states/uploader-repositioning';
