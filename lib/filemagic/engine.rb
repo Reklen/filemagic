@@ -16,9 +16,13 @@ module Filemagic
     def reposition(img, width, height, offset_x = '+0', offset_y = '+0')
       ::MiniMagick::Tool::Convert.new do |cmd|
         yield cmd if block_given?
-        cmd.gravity "Center"
-        cmd.crop "#{img.width}x#{height}#{offset_x}#{offset_y}"
-        cmd.resize "#{width}x#{height}"
+
+        cmd.resize "#{width}x"
+
+        cmd.gravity "NorthWest"
+
+        cmd.crop "#{width}x#{height}#{offset_x}#{formatted_offset(offset_y)}"
+
         cmd.merge! [img.path, img.path]
       end
     end
@@ -30,6 +34,15 @@ module Filemagic
 
       ::File.open(img.path, "rb")
     end
+
+    private
+      def formatted_offset(value)
+        int_to_sign_string(-1 * value.to_i)
+      end
+
+      def int_to_sign_string(value)
+        sprintf("%+d", value)
+      end
 
   end
 
@@ -58,6 +71,7 @@ class ActionView::Helpers::FormBuilder
       object: object_name,
       attribute: attribute_name,
       custom_attribute_name: custom_attribute_name,
+      offset_y: options[:offset_y] || false,
       image_size: image_size,
       preview_size: preview_size,
       preview_url: preview_url,

@@ -95,8 +95,8 @@ class Uploader extends React.Component {
 
     let width, height
 
-    if (this.isRepositioning()){
-      let imageHeight = this.props.imageSize["height"]
+    if (this.hasRepositionAction()){
+      var imageHeight = this.props.imageSize["height"]
       let imageWidth = this.props.imageSize["width"]
       let previewWidth = parseInt($('.fm-uploader-wrapper')[0].offsetWidth)
       let coeficient = previewWidth / imageWidth
@@ -119,7 +119,14 @@ class Uploader extends React.Component {
     });
 
     loadingImage.addEventListener('load', () => {
-      this.setDimensionMetadata(loadingImage.naturalWidth, loadingImage.naturalHeight)
+      this.canvas = $(ReactDOM.findDOMNode(this.refs.preview).childNodes);
+
+      let offsetY = this.props.offsetY || (this.previewHeight/2 - imageHeight/2)
+
+      this.canvas.css("top", offsetY);
+
+      this.setDimensionMetadata(loadingImage.naturalWidth, loadingImage.naturalHeight);
+      this.initilializeDraggables();
     });
 
   }
@@ -127,6 +134,11 @@ class Uploader extends React.Component {
   setDimensionMetadata(width, height){
     this.width = width
     this.height = height
+  }
+
+  setOffsetMetadata(offsetX, offsetY){
+    this.offsetX = offsetX
+    this.offsetY = offsetY
   }
 
   progress(e, data) {
@@ -159,7 +171,9 @@ class Uploader extends React.Component {
         "content_type": this.file.type,
         "size": this.file.size,
         "width": width,
-        "height": height
+        "height": height,
+        "offset_x": this.offset_x || '+0',
+        "offset_y": this.offset_y || '+0',
       }
     });
 
@@ -227,8 +241,36 @@ class Uploader extends React.Component {
     this.filenamePosition = {top: (this.previewHeight / 3) + 'px'}
   }
 
-  isRepositioning(){
+  hasRepositionAction(){
     return _.includes(this.props.actions, "reposition")
+  }
+
+  initilializeDraggables() {
+
+    this.canvas.draggable({
+      axis: "y",
+      opacity: 0.35,
+      drag: this.drag.bind(this),
+      stop: this.stopRepositioning.bind(this),
+      cursor: "ns-resize",
+    })
+    this.canvas.draggable("disable")
+  }
+
+  startReposition() {
+    this.setState({status: 'repositioning'});
+    this.canvas.draggable("enable");
+  }
+
+  drag(event, ui) {
+    let inputValue = this.state.inputValue;
+    inputValue.offset_y = ui.position.top;
+    this.setState({inputValue: inputValue});
+  }
+
+  stopRepositioning() {
+    this.setState({status: 'filled'})
+    this.canvas.draggable("disable");
   }
 
   render () {
@@ -237,7 +279,8 @@ class Uploader extends React.Component {
       'fm-uploader__img--dragover': this.state.status == 'dragover',
       'fm-uploader__img--dragenter': this.state.status == 'dragenter',
       'fm-uploader__img--loading': this.state.status == 'loading',
-      'fm-uploader__img--filled': this.state.status == 'filled'
+      'fm-uploader__img--filled': this.state.status == 'filled',
+      'fm-uploader__img--repositioning': this.state.status == 'repositioning'
     });
 
     var filename;
@@ -265,9 +308,9 @@ class Uploader extends React.Component {
     }
 
     let buttonEdit
-    if (this.isRepositioning()) {
+    if (this.hasRepositionAction()) {
       buttonEdit =
-        <div className="actions__btn-edit">
+        <div className="actions__btn-edit" onClick={this.startReposition.bind(this)}>
           <a className="actions__caption">Editar imagem</a>
         </div>
     }
