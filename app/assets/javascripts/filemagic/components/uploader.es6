@@ -40,6 +40,7 @@ class Uploader extends React.Component {
 
     $(element).fileupload({
       url: this.props.url,
+      beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
       type: 'POST',
       formData: this.getFormData.bind(this),
       add: this.add.bind(this),
