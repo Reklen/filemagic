@@ -5,7 +5,8 @@ class Uploader extends React.Component {
       status: 'empty',
       progress: 0,
       inputValue: {},
-      filename: ''
+      filename: '',
+      removeImage: false
     };
   }
 
@@ -132,6 +133,10 @@ class Uploader extends React.Component {
 
   }
 
+  removePreview(){
+    this.refs.preview.innerHTML = ""
+  }
+
   setDimensionMetadata(width, height){
     this.width = width
     this.height = height
@@ -182,6 +187,7 @@ class Uploader extends React.Component {
       this.setFilename(this.state.inputValue);
     }
 
+    this.setState({removeImage: false})
   }
 
   dragOverDocument(event) {
@@ -242,6 +248,18 @@ class Uploader extends React.Component {
     this.filenamePosition = {top: (this.previewHeight / 3) + 'px'}
   }
 
+  removeImage(){
+    this.setState({ status: 'empty',
+      progress: 0,
+      inputValue: {},
+      filename: ''
+    })
+
+    this.removePreview()
+
+    this.setState({removeImage: true})
+  }
+
   hasRepositionAction(){
     return _.includes(this.props.actions, "reposition")
   }
@@ -290,6 +308,13 @@ class Uploader extends React.Component {
       filename = <span className="fm-uploader__filename" style={this.filenamePosition}>{this.state.filename}</span>
     }
 
+    let removeImageCheckbox;
+    if (this.state.removeImage) {
+      let removeName = `${this.props.object}[remove_${this.props.attribute}]`
+      let removeId = `${this.props.object}remove_${this.props.attribute}`
+      removeImageCheckbox = <input type="hidden" value="1" name={removeName} id={removeId}/>
+    }
+
     var uploaderActionClasses = classNames('fm-uploader__actions', {
       'fm-uploader__actions--empty': this.state.status == 'empty',
       'fm-uploader__actions--filled': this.state.status == 'filled',
@@ -303,7 +328,7 @@ class Uploader extends React.Component {
     let buttonRemove
     if (_.includes(this.props.actions, "remove")) {
       buttonRemove =
-        <div className="actions__btn-remove">
+        <div className="actions__btn-remove" onClick={this.removeImage.bind(this)}>
           <a className="actions__caption">Remover imagem</a>
         </div>
     }
@@ -321,7 +346,10 @@ class Uploader extends React.Component {
 
       {filename}
 
+      {removeImageCheckbox}
+
       <input value={JSON.stringify(this.state.inputValue)} type="hidden" name={this.attributeName} />
+
 
       <div className={uploaderActionClasses}>
 

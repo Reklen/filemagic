@@ -16,13 +16,9 @@ module Filemagic
     def reposition(img, width, height, offset_x = '+0', offset_y = '+0')
       ::MiniMagick::Tool::Convert.new do |cmd|
         yield cmd if block_given?
-
         cmd.resize "#{width}x"
-
         cmd.gravity "NorthWest"
-
         cmd.crop "#{width}x#{height}#{offset_x}#{formatted_offset(offset_y)}"
-
         cmd.merge! [img.path, img.path]
       end
     end
