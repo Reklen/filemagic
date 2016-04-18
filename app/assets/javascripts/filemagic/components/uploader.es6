@@ -249,15 +249,18 @@ class Uploader extends React.Component {
   }
 
   removeImage(){
-    this.setState({ status: 'empty',
-      progress: 0,
-      inputValue: {},
-      filename: ''
-    })
+    let confirmRemove = confirm('Tem certeza de que quer remover a imagem?')
+    if (confirmRemove) {
+      this.setState({ status: 'empty',
+        progress: 0,
+        inputValue: {},
+        filename: ''
+      })
 
-    this.removePreview()
+      this.removePreview()
 
-    this.setState({removeImage: true})
+      this.setState({removeImage: true})
+    }
   }
 
   hasRepositionAction(){
