@@ -21,7 +21,7 @@
   </div>
   <div class="field">
     <%= f.label :cover_id %><br>
-    <%= f.filemagic_field :cover %>
+    <%= f.filemagic_field :cover, preview_size: {width: '800px', height: '200px'}, actions: ['remove', 'reposition']  %>
   </div>
   <div class="actions">
     <%= f.submit %>

@@ -3,8 +3,27 @@
 
 <h1><%= @post.title %></h1>
 
+<h2>Reposition</h2>
 <div>
-  <%= image_tag attachment_url(@post, :cover, :fill, 800, 400) %>
+  <%= image_tag attachment_url(@post, :cover, :reposition, 800, 200, @post.cover_offset_x, @post.cover_offset_y) %>
+</div>
+
+<h2>Fill</h2>
+
+<div>
+  <%= image_tag attachment_url(@post, :cover, :fill, 800, 200) %>
+</div>
+
+<h2>Fit</h2>
+
+<div>
+  <%= image_tag attachment_url(@post, :cover, :fit, 800, 200) %>
+</div>
+
+<h2>Limit</h2>
+
+<div>
+  <%= image_tag attachment_url(@post, :cover, :fit, 800, 200) %>
 </div>
 
 <p>
