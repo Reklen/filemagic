@@ -2,6 +2,10 @@
 
 This project rocks and uses MIT-LICENSE.
 
+## How to run the dummy application
+
+Go to `test/dummy` folder and `bin/rails s` there.
+
 ## Install
 
 ### Gemfile:

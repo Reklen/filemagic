@@ -1,4 +1,5 @@
 require 'refile/rails'
+require 'refile/mini_magick'
 
 module Filemagic
   class Engine < ::Rails::Engine
