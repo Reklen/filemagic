@@ -1,12 +1,19 @@
-√ Solve 100% width problem
-√ Create file (such as PDF, DOC, XLS.. non images files) upload
+- Create Dummy App layout
 
--> Add element to "Add image", "New image"
+- Create Showcase App - App that uses filemagic
 
-- Arrumar campo se for um arquivo
+- Upgrade React version to 15
+- Add support to Turbolinks (Rails 5)
 
-- Create multiple images upload
-- Upgrade React version to 0.14 http://facebook.github.io/react/blog/2015/10/07/react-v0.14.html
-- Add support to turbolinks (Rails 5)
-- Verify how to add ES6 dependency on gem only
-- Verify how to add refile-mini_magick dependency on gem only
+- Add tests JS
+- Add tests Ruby?
+
+- [feature] Crop
+- [feature][ui] Multiple images upload / gallery
+
+- [doc] Position parameters when using reposition action
+- [doc] Add jQuery dependency when using filemagic
+- [doc] Explain if don't configure S3, it will use FileSystem
+- [doc] Remove upload of files (non-image)
+- [doc] Add images/gifs
+- [doc] Create contributing.md 
