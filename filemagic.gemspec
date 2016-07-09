@@ -18,15 +18,15 @@ Gem::Specification.new do |s|
   s.test_files = Dir["test/**/*"]
 
   # TODO: Do we need rails as a dependency?
-  s.add_dependency 'rails', ">= 4.2.0", "< 5"
+  s.add_dependency "rails", ">= 4.2.0", "< 5"
 
   s.add_dependency "refile", "~> 0.6.1"
   s.add_dependency "refile-mini_magick", "~> 0.2.0"
   s.add_dependency "refile-s3", "~> 0.2.0"
 
-  s.add_dependency "sprockets", "~> 3.4.0"
+  s.add_dependency "sprockets", "~> 3.4", ">= 3.4.0"
 
-  s.add_development_dependency "sqlite3"
+  s.add_development_dependency "sqlite3", "~> 0"
   s.add_development_dependency "sprockets-es6", "~> 0.8.0"
   s.add_development_dependency "jquery-rails", "~> 4.1", ">= 4.1.1"
   s.add_development_dependency "sass-rails", "~> 5.0", ">= 5.0.5"
