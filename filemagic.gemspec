@@ -26,7 +26,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency "sprockets", "~> 3.4", ">= 3.4.0"
 
-  s.add_development_dependency "sqlite3", "~> 0"
+  s.add_development_dependency "sqlite3", "~> 1.3.6"
   s.add_development_dependency "sprockets-es6", "~> 0.8.0"
   s.add_development_dependency "jquery-rails", "~> 4.1", ">= 4.1.1"
   s.add_development_dependency "sass-rails", "~> 5.0", ">= 5.0.5"
