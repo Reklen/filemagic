@@ -1,21 +1,33 @@
 # Filemagic
 
-This project rocks and uses MIT-LICENSE.
+Filemagic is a file uploader with a beautiful and simple interface, built with React on frontend and using [Refile](https://github.com/refile/refile) gem on backend to upload to S3.
 
-## How to run the dummy application
+Showcase demo [here](#)
 
-Go to `test/dummy` folder and `bin/rails s` there.
+![alt text](http://i.giphy.com/26hit1IFe3a5YtvhK.gif "Title")
+
 
 ## Install
 
-### Gemfile:
-  - Add:
-    - gem 'sprockets', '~> 3.4.0'
-    - gem 'sprockets-es6', '~> 0.8.0'
-    - gem "refile-mini_magick", "~> 0.2.0"
+### Dependencies:
 
-  - Remove:
-    - gem 'turbolinks'
+#### Gemfile
+Add:
+- gem 'sprockets', '~> 3.4.0'
+- gem 'sprockets-es6', '~> 0.8.0'
+- gem "refile-mini_magick", "~> 0.2.0"
+
+Remove:
+- gem 'turbolinks'
+
+#### JavaScript
+Filemagic is jQuery dependent, it uses many jQuery plugins:
+- jQuery fileupload
+- jQuery UI
+- jQuery UI Widget
+- jQuery Iframe Transport Plugin
+
+So ensure your project imports jQuery.
 
 ### application.js
   - remove turbolinks
@@ -30,7 +42,7 @@ Go to `test/dummy` folder and `bin/rails s` there.
 ## Configuration
 
 Create a `filemagic.rb` file on config/initializers.
-If using S3 to cache/store files needs to have refile cache/store configurated.
+If using S3 to cache/store files needs to have refile cache/store configurated, if S3 cache/store is not set on initializer file Refile will use host FileSystem to store images.
 
 ```ruby
 require "refile/s3"
@@ -55,6 +67,8 @@ mount Filemagic::Engine => "/filemagic"
 ```
 
 ### S3 Bucket CORS config
+Add a CORS xml configuration file to your S3 bucket.
+Cross-origin resource sharing (CORS) defines a way for client web applications that are loaded in one domain to interact with resources in a different domain.
 
 ```xml
 <CORSConfiguration>
@@ -88,23 +102,6 @@ Add input on form:
 <%= f.filemagic_field :cover_image %>
 ```
 
-### Input options
-
-Preview size can be customized with a `preview_size` option:
-```ruby
-<%= f.filemagic_field :cover_image, preview_size: {width: '100px', height: '100px'} %>
-```
-
-If is a file to be input, set `is_file_field` to `true`. (Hides image preview and display file icon on hover)
-```ruby
-<%= f.filemagic_field :program, is_file_field: true, preview_size: {width: '200px', height: '200px'} %>
-```
-
-Action Buttons can be activated per field with an array passed through `actions`:
-```ruby
-<%= f.filemagic_field :cover_image, actions: ['remove', 'reposition'] %>
-```
-
 Whitelist attribute on strong parameters controller:
 
 ```ruby
@@ -113,8 +110,47 @@ def post_params
 end
 ```
 
-To check images on view, use `attachment_url` helper:
+To call images on any view, use `attachment_url` helper:
 
 ```ruby
 image_tag attachment_url(post, :cover_image, :fill, 100, 100)
 ```
+
+
+## Input options
+Filemagic input have some options to customize:
+
+### 1. Preview size
+Preview size can be customized with a `preview_size` option:
+```ruby
+<%= f.filemagic_field :cover_image, preview_size: {width: '100px', height: '100px'} %>
+```
+
+### 2. Actions
+Action Buttons can be activated per field with an array passed through `actions`:
+```ruby
+<%= f.filemagic_field :cover_image, actions: ['remove', 'reposition'] %>
+```
+
+#### 2.1 Remove
+Add a `remove` button, allowing user to set a new or remove a file from model
+
+#### 2.2 Reposition
+Allow user to reposition image inside a visible window. Like a crop, but it's not a crop. (Crop feature will be able soon).
+Important: reposition feature stores values on model as coordinates, so it depends on having 2 string attributes on model:
+- `<name_of_field>offset_x`
+- `<name_of_field>offset_y`
+
+Create a migration:
+```ruby
+rails g migration add_cover_image_offset_to_posts cover_image_offset_x cover_image_offset_y
+```
+
+And edit migration file to have default to `+0`
+```ruby
+  t.string :cover_image_offset_x, default: '+0'
+  t.string :cover_image_offset_y, default: '+0'
+```
+
+## License
+This project rocks and uses [MIT-LICENSE](MIT-LICENSE)
